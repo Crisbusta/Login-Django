@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from auth_login.forms import EditProfileForm, UserForm
+from auth_login.forms import EditProfileForm, UserForm, EditUserProfile
 from django.db import IntegrityError
 from datetime import datetime
+from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -24,7 +25,13 @@ def register(request):
                     is_active=True,
                 )
                 user.save()
-                print('usuario registrado')
+                #cuenta = UserProfile.objects.create(
+                #    city=request.POST['city'],
+                #    address=request.POST['address'],
+                #    phone=request.POST['phone'],
+                #    user=user,
+                #)
+                #cuenta.save()
 
                 messages.add_message(
                     request,
@@ -34,15 +41,6 @@ def register(request):
                 auth.login(request, user)
                 return redirect('accounts:home')
 
-                #client = Client.objects.create(
-                #    age=request.POST['age'],
-                #    address=request.POST['address'],
-                #    rut=request.POST['rut'],
-                #    phone=request.POST['phone'],
-                #    user=user,
-                #)
-
-                #client.save()
 
             except IntegrityError as ie:
                 messages.add_message(
@@ -109,7 +107,7 @@ def logout(request):
 
 
 def profile(request):
-    data = {'user': request.user}
+    data = {'user': UserProfile.objects.get(user=request.user.id)}
     template_name = 'profile.html'
     return render(request, template_name, data)
 
