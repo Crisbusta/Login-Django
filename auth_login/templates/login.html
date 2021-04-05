@@ -22,25 +22,25 @@ Login Usuario
                 {% endfor %}
                 {% endif %}
             </div>
-            <div class="form-label-group w-50 mx-auto">
+            <div class="form-label-group w-50 mx-auto mb-3">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
                     autofocus>
             </div>
 
-            <div class="form-label-group w-50 mx-auto">
+            <div class="form-label-group w-50 mx-auto mb-3">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                     required>
             </div>
 
-            <div class="checkbox mb-3 w-50 mx-auto">
+            <div class="checkbox mb-3 w-50 mx-auto mb-1">
                 <label>
                     <input type="checkbox" value="remember-me"> Recuérdame
                 </label>
             </div>
             <div class="mb-3 w-50 mx-auto">
-                <button class="btn btn-lg btn-block     btn-primary" type="submit">Entrar</button>
+                <p><button class="btn btn-lg btn-block     btn-primary" type="submit">Entrar</button> <span><a href="{% url 'auth:register' %}">Registrarse</a></span></span></p>
             </div>
             <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2019</p>
         </form>

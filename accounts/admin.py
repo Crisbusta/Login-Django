@@ -4,4 +4,4 @@ from accounts.models import Tabla_test
 
 @admin.register(Tabla_test)
 class Tabla_testAdmin(admin.ModelAdmin):
-    list_display = ['columna_uno']
+    list_display = ['user', 'columna_uno']

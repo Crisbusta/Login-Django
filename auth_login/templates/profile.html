@@ -6,59 +6,20 @@ Información de tu Perfil
 {% block body %}
 <!--Formulario-->
 
-<div class="row mt-5">
-    <div class="col-4">
-        <div class="card mb-5" style="width: 19rem;">
-            <div class="card-body">
-                <h3 class="card-title"><strong>Tus datos</strong></h3>
-                <h6>Nombre</h6>
-                <p class="card-text">{{user.first_name}} {{user.last_name}}</p>
-                <h6>Email</h6>
-                <p class="card-text">{{user.email}}</p>
-                <a href="{% url 'auth:edit' %}" class="btn btn-primary mr-2"><i class="far fa-edit text-center"></i></a>
-                <a href="{% url 'auth:change_password' %}" class="btn btn-primary"><i class="fas fa-key"></i></a>
-            </div>
-        </div>
-        <div class="card mb-5" style="width: 19rem;">
-            <div class="card-body">
-                <h3 class="card-title"><strong>Direcciones</strong></h3>
-                <h6>Casa</h6>
-                <p class="card-text">{{user.client.address}}</p>
-                <p class="card-text"><i class="fas fa-plus mr-2"></i>Añadir direccion</p>
-            </div>
-        </div>
+<div class="row mt-5 h-100">
+  <div class="col-md-6 mx-auto my-auto">
+    <div class="card mb-5 align-center">
+      <div class="card-body">
+        <h3 class="card-title"><strong>Tus datos</strong></h3>
+        <h6>Nombre</h6>
+        <p class="card-text">{{user.first_name}} {{user.last_name}}</p>
+        <h6>Email</h6>
+        <p class="card-text">{{user.email}}</p>
+        <a href="{% url 'auth:edit' %}" class="btn btn-primary mr-2"><i class="far fa-edit text-center"></i></a>
+        <a href="{% url 'auth:change_password' %}" class="btn btn-primary"><i class="fas fa-key"></i></a>
+      </div>
     </div>
-    <div class="col-8">
-        <div class="card mb-5" style="width: 45rem;">
-            <div class="card-body">
-                <h3 class="card-title"><strong>Tus compras</strong></h3>
-                <table class="table mt-4">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Detalle</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-borderless">
-                    {% for compra in compras %}
-                      <tr>
-                        <td>{{compra.id}}</td>
-                        <td>{{compra.date}}</td>
-                        <td>${{compra.total}}</td>
-                        <td><a href="{% url 'auth:purchases' compra.id %}">Ver Detalle</a></td>
-                      </tr>
-                    {% endfor %}
-                    </tbody>
-                  </table>
-                <!--If compras ==  0-->
-
-                <!--else-->
-                <!--Compras-->
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 {% endblock %}
 

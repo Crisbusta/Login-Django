@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from auth_login.forms import EditProfileForm, UserForm
 from django.db import IntegrityError
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -20,7 +21,18 @@ def register(request):
                     last_name=request.POST['last_name'],
                     email=request.POST['email'],
                     password=request.POST['password'],
+                    is_active=True,
                 )
+                user.save()
+                print('usuario registrado')
+
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    'Usuario creado con exito'
+                )
+                auth.login(request, user)
+                return redirect('accounts:home')
 
                 #client = Client.objects.create(
                 #    age=request.POST['age'],
@@ -30,14 +42,7 @@ def register(request):
                 #    user=user,
                 #)
 
-                user.save()
                 #client.save()
-
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    'Usuario creado con exito'
-                )
 
             except IntegrityError as ie:
                 messages.add_message(
@@ -46,13 +51,13 @@ def register(request):
                     'Problemas al crear el usuario ERROR: {error}.'.format(
                         error=str(ie))
                 )
-            except ValidationError as ve:
-                messages.add_message(
-                    request,
-                    messages.ERROR,
-                    'Problemas con la validación del formulario: {error}.' .format(
-                        error=str(ve))
-                )
+            #except ValidationError as ve:
+            #    messages.add_message(
+            #        request,
+            #        messages.ERROR,
+            #        'Problemas con la validación del formulario: {error}.' .format(
+            #            error=str(ve))
+            #    )
             
         else:
             messages.add_message(
@@ -82,7 +87,7 @@ def login(request):
             if user.is_active:
                 #Usuario valido
                 auth.login(request, user)
-                return redirect('accounts:home')
+                return redirect('auth:profile')
             else:
                 messages.add_message(
                     request,
@@ -104,11 +109,9 @@ def logout(request):
 
 
 def profile(request):
-    pass
-    #data = {'user': request.user}
-    #template_name = 'profile.html'
-    #data['compras'] = Sale.objects.filter(client=request.user.id)
-    #return render(request, template_name, data)
+    data = {'user': request.user}
+    template_name = 'profile.html'
+    return render(request, template_name, data)
 
 def editProfile(request):
     data = {}
