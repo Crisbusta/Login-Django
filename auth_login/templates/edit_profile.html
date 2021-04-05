@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block head %}
+Información de tu Perfil
+{% endblock %}
+{% block body%}
+<!--Titulo-->
+<div class="row round-borderform mt-5 mb-5">
+    <div class="col">
+        <h2>Editar perfil</h2>
+        <!--Fin titulo-->
+        {% bootstrap_messages %}
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                Confirmar cambios
+            </button>
+            {% endbuttons %}
+        </form>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block head %}
+Homexd
+{% endblock %}
+{% block body %}
+<p>{{myName}}</p>
+{% for number in numbers %}
+<p>{{ number}}</p>
+{% endfor %}
+<p>{{ testItem.columna_uno }}</p>
+<p>{{ testItem.columna_cuatro }}</p>
+
+<p>{{user.email}}</p>
+{% endblock %}
