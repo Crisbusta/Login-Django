@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from auth_login.forms import RegistrationForm
+from auth_login.forms import RegistrationForm, EditProfileForm
 from django.db import IntegrityError
 from datetime import datetime
 from accounts.models import UserProfile
@@ -16,6 +16,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            auth.logout(request)
             #auth.login(request, user)
             return redirect('auth:login') 
     else:
@@ -55,8 +56,8 @@ def login(request):
                 messages.ERROR,
                 'Usuario o Contraseña incorrectos.'
             )
-
-    return render(request, template_name, data)
+    else:
+        return render(request, template_name, data)
 
 def logout(request):
     auth.logout(request)
@@ -104,11 +105,10 @@ def change_password(request):
         data = {'form': form}
         return render(request, template_name, data) 
 
-def purchases(request, id):
-    data = {}
-    template_name = 'purchases.html'
-    
-    data['compras'] = Detail.objects.filter(Numero_boleta=id)
-    data['total'] = Sale.objects.get(pk=id)
-
-    return render(request, template_name, data)
+#def purchases(request, id):
+# data = {}
+# template_name = 'purchases.html'
+# 
+# data['compras'] = Detail.objects.filter(Numero_boleta=id)
+# data['total'] = Sale.objects.get(pk=id)
+#   return render(request, template_name, data)

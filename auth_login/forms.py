@@ -33,9 +33,10 @@ class EditProfileForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = {
+        fields = [
+            'username',
             'email',
             'first_name',
             'last_name',
             'password'
-        }
+        ]

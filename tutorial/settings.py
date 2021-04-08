@@ -142,3 +142,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+# Aqui debiesen ir los SMTP para enviar el formulario, el de abajo es momentaneo. 
+# Sirve para testing
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
