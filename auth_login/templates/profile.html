@@ -6,15 +6,15 @@ Información de tu Perfil
 {% block body %}
 <!--Formulario-->
 
-<div class="row mt-5 h-100">
+<div class="row h-100">
   <div class="col-md-6 mx-auto my-auto">
     <div class="card mb-5 align-center">
       <div class="card-body">
         <h3 class="card-title"><strong>Tus datos</strong></h3>
         <h6>Nombre</h6>
-        <p class="card-text">{{user.first_name}} {{user.last_name}}</p>
+        <p class="card-text">{{user.user.first_name}} {{user.user.last_name}}</p>
         <h6>Email</h6>
-        <p class="card-text">{{user.email}}</p>
+        <p class="card-text">{{user.user.email}}</p>
         <h6>Calle</h6>
         <p class="card-text">{{user.address}}</p>
         <h6>Ciudad</h6>
