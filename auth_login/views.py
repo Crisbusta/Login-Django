@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from auth_login.forms import EditProfileForm, UserForm, EditUserProfile
+from auth_login.forms import RegistrationForm
 from django.db import IntegrityError
 from datetime import datetime
 from accounts.models import UserProfile
@@ -9,62 +9,19 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
 def register(request):
-    data = {}
     template_name = 'register.html'
-    data['form'] = UserForm(request.POST or None)
+    #data['form'] = RegistrationForm(request.POST or None)
 
     if request.method == 'POST':
-        if data['form'].is_valid():
-            try:
-                user = User.objects.create_user(
-                    username=request.POST['username'],
-                    first_name=request.POST['first_name'],
-                    last_name=request.POST['last_name'],
-                    email=request.POST['email'],
-                    password=request.POST['password'],
-                    is_active=True,
-                )
-                user.save()
-                #cuenta = UserProfile.objects.create(
-                #    city=request.POST['city'],
-                #    address=request.POST['address'],
-                #    phone=request.POST['phone'],
-                #    user=user,
-                #)
-                #cuenta.save()
-
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    'Usuario creado con exito'
-                )
-                auth.login(request, user)
-                return redirect('accounts:home')
-
-
-            except IntegrityError as ie:
-                messages.add_message(
-                    request,
-                    messages.ERROR,
-                    'Problemas al crear el usuario ERROR: {error}.'.format(
-                        error=str(ie))
-                )
-            #except ValidationError as ve:
-            #    messages.add_message(
-            #        request,
-            #        messages.ERROR,
-            #        'Problemas con la validación del formulario: {error}.' .format(
-            #            error=str(ve))
-            #    )
-            
-        else:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                'Problemas al crear usuario',
-            )
-
-    return render(request, template_name, data)
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #auth.login(request, user)
+            return redirect('auth:login') 
+    else:
+        form = RegistrationForm()
+        args = {'form':form}
+        return render(request, template_name, args)
 
 def login(request):
     template_name = 'login.html'

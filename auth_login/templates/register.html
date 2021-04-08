@@ -6,12 +6,12 @@ Crear usuario
 {% block body %}
 <!--Titulo-->
 <div class="row round-borderform">
-    <div class="col">
+    <div class="col-md-12">
         <h2>Registrarse</h2>
         <!--Fin titulo-->
+        
         <!--Formulario-->
-        {% bootstrap_messages %}
-        <form class="" method="POST">
+        <form method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
