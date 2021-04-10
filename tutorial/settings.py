@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -85,12 +86,11 @@ WSGI_APPLICATION = 'tutorial.wsgi.application'
 
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'testdjango',
-            'USER': 'crisbusta',
-            'PASSWORD': 'coTo2012@9812390',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('NAME'),#'testdjango',
+            'USER': os.getenv('USER'),#'crisbusta',
+            'PASSWORD': os.getenv('PASSWORD'),#'coTo2012@9812390',
+            'HOST': os.getenv('HOST'),#'localhost',
         }
     }
 

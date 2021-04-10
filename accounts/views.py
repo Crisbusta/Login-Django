@@ -9,6 +9,6 @@ def home(request):
     data = {}
     data['myName'] = name
     data['numbers'] = numbers
-    data['testItem'] = Tabla_test.objects.get(pk=1)
+    #data['testItem'] = Tabla_test.objects.get(pk=1)
 
     return render(request, 'home.html', data)

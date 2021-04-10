@@ -7,6 +7,7 @@ from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 
 def register(request):
     template_name = 'register.html'
@@ -60,29 +61,40 @@ def login(request):
         return render(request, template_name, data)
 
 def logout(request):
-    auth.logout(request)
-    return redirect('accounts:home')
+    if request.user.is_authenticated:
+        auth.logout(request)
+        return redirect('accounts:home')
+    else:
+        print('no logeado')
+        return redirect('accounts:home')
 
 
 def profile(request):
-    data = {'user': UserProfile.objects.get(user=request.user.id)}
     template_name = 'profile.html'
-    return render(request, template_name, data)
+    if request.user.is_authenticated:
+        # Do something for authenticated users.
+        data = {'user': UserProfile.objects.get(user=request.user.id)}
+        return render(request, template_name, data)
+    else:
+        return redirect('accounts:home')
 
 def editProfile(request):
     data = {}
     template_name = 'edit_profile.html'
 
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+    if request.user.is_authenticated:    
+        if request.method == 'POST':
+            form = EditProfileForm(request.POST, instance=request.user)
 
-        if form.is_valid():
-            form.save()
-            return redirect('auth:profile')
+            if form.is_valid():
+                form.save()
+                return redirect('auth:profile')
+        else:
+            form = EditProfileForm(instance=request.user)
+            data = {'form': form}
+            return render(request, template_name, data) 
     else:
-        form = EditProfileForm(instance=request.user)
-        data = {'form': form}
-        return render(request, template_name, data) 
+        return redirect('accounts:home')
 
 
     return render(request, template_name, data)
@@ -90,20 +102,22 @@ def editProfile(request):
 def change_password(request):
     data = {}
     template_name = 'change_password.html'
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PasswordChangeForm(data=request.POST, user=request.user)
 
-    if request.method == 'POST':
-        form = PasswordChangeForm(data=request.POST, user=request.user)
-        
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            return redirect('auth:profile')
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                return redirect('auth:profile')
+            else:
+                return redirect('auth:change_password')
         else:
-            return redirect('auth:change_password')
+            form = PasswordChangeForm(user=request.user)
+            data = {'form': form}
+            return render(request, template_name, data)
     else:
-        form = PasswordChangeForm(user=request.user)
-        data = {'form': form}
-        return render(request, template_name, data) 
+        return redirect('accounts:home')
 
 #def purchases(request, id):
 # data = {}
