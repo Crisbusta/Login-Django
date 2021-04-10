@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
-import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tutorial.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'tutorial.urls'
@@ -85,14 +86,14 @@ WSGI_APPLICATION = 'tutorial.wsgi.application'
 #}
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('NAME'),#'testdjango',
-            'USER': os.getenv('USER'),#'crisbusta',
-            'PASSWORD': os.getenv('PASSWORD'),#'coTo2012@9812390',
-            'HOST': os.getenv('HOST'),#'localhost',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('NAME'),#'testdjango',
+        'USER': os.getenv('USER'),#'crisbusta',
+        'PASSWORD': os.getenv('PASSWORD'),#'coTo2012@9812390',
+        'HOST': os.getenv('HOST'),#'localhost',
     }
+}
 
 
 # Password validation
@@ -145,3 +146,14 @@ MESSAGE_TAGS = {
 # Aqui debiesen ir los SMTP para enviar el formulario, el de abajo es momentaneo. 
 # Sirve para testing
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+LOGIN_REDIRECT_URL = '/account/'
+LOGIN_URL = '/auth/login'
+LOGIN_EXEMPT_URLS ={
+    r'^auth/logout/$',
+    r'^auth/register/$',
+    r'^accounts/password_reset/$',
+    r'^accounts/password_reset/done/$',
+}

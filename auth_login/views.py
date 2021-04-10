@@ -71,53 +71,43 @@ def logout(request):
 
 def profile(request):
     template_name = 'profile.html'
-    if request.user.is_authenticated:
-        # Do something for authenticated users.
-        data = {'user': UserProfile.objects.get(user=request.user.id)}
-        return render(request, template_name, data)
-    else:
-        return redirect('accounts:home')
+    
+    data = {'user': UserProfile.objects.get(user=request.user.id)}
+    return render(request, template_name, data)
+
+
 
 def editProfile(request):
     data = {}
     template_name = 'edit_profile.html'
 
-    if request.user.is_authenticated:    
-        if request.method == 'POST':
-            form = EditProfileForm(request.POST, instance=request.user)
-
-            if form.is_valid():
-                form.save()
-                return redirect('auth:profile')
-        else:
-            form = EditProfileForm(instance=request.user)
-            data = {'form': form}
-            return render(request, template_name, data) 
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('auth:profile')
     else:
-        return redirect('accounts:home')
-
+        form = EditProfileForm(instance=request.user)
+        data = {'form': form}
+        return render(request, template_name, data) 
 
     return render(request, template_name, data)
 
 def change_password(request):
     data = {}
     template_name = 'change_password.html'
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = PasswordChangeForm(data=request.POST, user=request.user)
-
-            if form.is_valid():
-                form.save()
-                update_session_auth_hash(request, form.user)
-                return redirect('auth:profile')
-            else:
-                return redirect('auth:change_password')
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('auth:profile')
         else:
-            form = PasswordChangeForm(user=request.user)
-            data = {'form': form}
-            return render(request, template_name, data)
+            return redirect('auth:change_password')
     else:
-        return redirect('accounts:home')
+        form = PasswordChangeForm(user=request.user)
+        data = {'form': form}
+        return render(request, template_name, data)
 
 #def purchases(request, id):
 # data = {}
