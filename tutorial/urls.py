@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
-    path('auth/', include('auth_login.urls')),
+    path('auth/', include('auth_login.urls', namespace='auth')),
     #Me trae las funciones de reseteo de contraseña que provee Django
     path('accounts/', include('django.contrib.auth.urls')), 
 ]

@@ -59,7 +59,7 @@ ROOT_URLCONF = 'tutorial.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -156,4 +156,5 @@ LOGIN_EXEMPT_URLS ={
     r'^auth/register/$',
     r'^accounts/password_reset/$',
     r'^accounts/password_reset/done/$',
+    r'^admin$',
 }

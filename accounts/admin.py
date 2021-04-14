@@ -1,7 +1,8 @@
 from django.contrib import admin
 from accounts.models import Tabla_test, UserProfile
-# Register your models here.
+#admin.site.site_header= 'Admin XD'
 
+# Register your models here.
 @admin.register(Tabla_test)
 class Tabla_testAdmin(admin.ModelAdmin):
     list_display = ['user', 'columna_uno']
